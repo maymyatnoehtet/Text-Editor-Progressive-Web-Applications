@@ -1,7 +1,12 @@
-const dotenv = require("dotenv");
+const express = require("express");
 
-dotenv.config({ path: "./config.env" });
-const app = require("./app");
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Now listening on port: ${port}`));
+app.use(express.static("../client/dist"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+require("./routes/htmlRoutes")(app);
+
+app.listen(PORT, () => console.log(`Now listening on port: ${PORT}`));
